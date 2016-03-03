@@ -5,32 +5,31 @@ using namespace cv;
 
 
 int main() {
-    Mat image;
-    image = imread("1095.jpg");
+    Mat image, grad;
+    image = imread("1.jpg");
     
-    for( int y = 0; y < image.rows; y++ ) {
-        for( int x = 0; x < image.cols; x++ ) {
-            for( int c = 0; c < 3; c++ ) {
-                image.at<Vec3b>(y,x)[c] = 255 - image.at<Vec3b>(y,x)[c];
-            }
-        }
-    }
+    Mat grad_x, grad_y;
+    Mat abs_grad_x, abs_grad_y;
     
-    Point center = Point(image.cols/2, image.rows/2);
-    double angle = 30.0;
-    double scale = 2/3.0;
+    //reduce noise
+    GaussianBlur(image, image, Size(3,3), 0, 0, BORDER_DEFAULT );
     
-    Mat rot_mat(2, 3, CV_32FC1);
-    rot_mat = getRotationMatrix2D(center, angle, scale);
+    //x-gradient with Sobel opertor
+    Sobel(image, grad_x, CV_16S, 1, 0, 3, 1, 0, BORDER_DEFAULT );
+    convertScaleAbs(grad_x, abs_grad_x);
     
-    Mat change;
+    //y-gradient with Sobel operator
+    Sobel(image, grad_y, CV_16S, 0, 1, 3, 1, 0, BORDER_DEFAULT );
+    convertScaleAbs(grad_y, abs_grad_y);
     
-    warpAffine(image, change, rot_mat, image.size() );
+    //average xy-gradient with Sobel operator
+    addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+    
     
     
     namedWindow("rtr", WINDOW_AUTOSIZE);
-    imshow("rtr", change);
-    imwrite("new_change.jpg", change);
+    imshow("rtr", abs_grad_x);
+    imwrite("new_change.jpg", abs_grad_x);
     waitKey(0);
     return 0;
 }
