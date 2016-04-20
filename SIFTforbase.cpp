@@ -8,28 +8,27 @@ using namespace cv;
 
 
 int main() {
-    FileStorage database("base.yml", FileStorage::WRITE);
+    //записываем все в 5 файлов
+    FileStorage database("base8000-9999.yml", FileStorage::WRITE);
     
-    for (int i = 298; i<10000; ++i) {
+    for (int i = 8000; i < 10000; ++i) {
         Mat image;
         image = imread("../../../Downloads/kinopoisk/" + std::to_string(i) + ".jpg");
         
         if (image.data) {
-            //detect keypoints
-            SiftFeatureDetector detector;
+            //находим особые точки
+            SurfFeatureDetector detector(4800);
     
             std::vector<KeyPoint> keypoints;
             detector.detect(image, keypoints);
     
-            //calculate descriptors
-            SiftDescriptorExtractor extractor;
+            //считаем их дескрипторы
+            SurfDescriptorExtractor extractor;
             Mat descriptors;
             extractor.compute(image, keypoints, descriptors);
             
-            write(database, "k"+std::to_string(i), keypoints);
-            write(database, "d"+std::to_string(i), descriptors);
+            write(database, "d" + std::to_string(i), descriptors);
         }
-        if (i % 100 == 0) std::cout << "Yey" << i << std::endl;
     }
     
     database.release();
