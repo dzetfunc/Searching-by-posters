@@ -7,8 +7,11 @@ using namespace cv;
 
 
 int main() {
-    Mat image1, image2;
+    Mat image1, image2, image3;
+    
     image2 = imread("1.jpg");
+    
+    image3 = imread("new.jpg");
     
     //create rotate
     Point center = Point(image2.cols/2, image2.rows/2);
@@ -22,14 +25,14 @@ int main() {
     SiftFeatureDetector detector;
     
     std::vector<KeyPoint> keypoints1, keypoints2;
-    detector.detect(image1, keypoints1);
+    detector.detect(image3, keypoints1);
     detector.detect(image2, keypoints2);
     
     //calculate descriptors
     SiftDescriptorExtractor extractor;
     Mat descriptors1, descriptors2;
     
-    extractor.compute(image1, keypoints1, descriptors1);
+    extractor.compute(image3, keypoints1, descriptors1);
     extractor.compute(image2, keypoints2, descriptors2);
     
     //matching descriptor
@@ -53,7 +56,7 @@ int main() {
     
     //draw good matches
     Mat img_matches;
-    drawMatches(image1, keypoints1, image2, keypoints2, good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+    drawMatches(image3, keypoints1, image2, keypoints2, good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
     namedWindow("rtr", WINDOW_AUTOSIZE);
     imshow("rtr", img_matches);

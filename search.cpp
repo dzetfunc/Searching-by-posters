@@ -16,7 +16,7 @@ bool comp( pair<float, int> a, pair<float, int> b) {
 
 int main() {
     Mat image;
-    image = imread("new.jpg");
+    image = imread("new1.jpg");
     
     resize(image, image, Size(480, 640), 0, 0, INTER_LINEAR);
     
@@ -181,10 +181,10 @@ int main() {
  
 
     for (int i = 0; i < 5; i++) {
-        cout << endl << endl << "maybe:   http://www.kinopoisk.ru/film/" + to_string(same[i]) + "/" << to_string(c[i]) << endl << endl;
+        cout << endl << endl << "maybe:   http://www.kinopoisk.ru/film/" + to_string(same[i]) + "/" << endl << endl;
     }
     
-    cout << endl << endl << "http://www.kinopoisk.ru/film/" + to_string(maxx) + "/" << to_string(max) << endl << endl;
+    cout << endl << endl << "http://www.kinopoisk.ru/film/" + to_string(maxx) + "/" << endl << endl;
 
     return 0;
 }

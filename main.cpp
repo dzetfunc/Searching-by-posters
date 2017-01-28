@@ -7,20 +7,27 @@ using namespace cv;
 
 int main() {
     Mat image;
-    image = imread("1.jpg");
+    image = imread("6379.jpg");
     
 
-    for( int y = 0; y < image.rows; y++ ) {
-        for( int x = 0; x < image.cols; x++ ) {
-            for( int c = 0; c < 3; c++ ) {
-                image.at<Vec3b>(y,x)[c] = 255 - image.at<Vec3b>(y,x)[c];
-            }
-        }
-    }
+    Mat image1, image2;
+    
+    image2 = imread("6379.jpg");
+    
+    //reduce noise
+    GaussianBlur(image2, image2, Size(5,5), 5, 0, BORDER_DEFAULT );
+    
+    //create rotate
+    Point center = Point(image2.cols/2, image2.rows/2);
+    double angle = 30.0;
+    double scale = 1;
+    Mat rot_mat(2, 3, CV_32FC1);
+    rot_mat = getRotationMatrix2D(center, angle, scale);
+    warpAffine(image2, image1, rot_mat, image2.size() );
 
     namedWindow("rtr", WINDOW_AUTOSIZE);
-    imshow("rtr", image);
-    imwrite("new.jpg", image);
+    imshow("rtr", image1);
+    imwrite("new.jpg", image1);
     waitKey(0);
     return 0;
 }

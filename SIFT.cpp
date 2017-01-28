@@ -8,12 +8,11 @@ using namespace cv;
 
 int main() {
     Mat image, grad;
-    image = imread("000007-2_773.JPG");
-    
-    
-    SiftFeatureDetector detector;
+    image = imread("298.jpg");
     
     std::vector<KeyPoint> keypoints;
+    
+    SurfFeatureDetector detector(3200);
     detector.detect(image, keypoints);
     
     //draw points on picture

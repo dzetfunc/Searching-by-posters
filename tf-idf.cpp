@@ -61,6 +61,8 @@ int main() {
     clustbase.release();
     tf_idf.release();
     
+    cout << endl << "Y" << endl;
+    
     waitKey(0);
     return 0;
 }

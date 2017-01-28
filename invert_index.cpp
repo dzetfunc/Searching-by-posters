@@ -20,7 +20,7 @@ int main() {
     for (int i=298; i < 298 + num_img; ++i) {
         
         vector<float> tfidf;
-        FileNode lel = tf_idf["nya"+to_string(i)];
+        FileNode lel = tf_idf["nyan"+to_string(i)];
         read(lel, tfidf);
         
         for (int j = 0; j < num_clust; ++j) {
@@ -36,7 +36,6 @@ int main() {
     
     tf_idf.release();
     inv.release();
-    
-    waitKey(0);
+
     return 0;
 }
